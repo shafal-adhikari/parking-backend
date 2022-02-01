@@ -13,10 +13,10 @@ const parkingSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    image: {
-      data: Buffer,
-      contentType: String,
-    },
+    // image: {
+    //   data: Buffer,
+    //   contentType: String,
+    // },
     ratingQuantity: {
       type: Number,
       default: 4.5,

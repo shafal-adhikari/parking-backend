@@ -16,7 +16,10 @@ exports.addParking = catchAsync(async (req, res) => {
     name,
     location,
     description,
-    coordinates,
+    geometry: {
+      type: "point",
+      coordinates,
+    },
   });
   await newParking.save();
   await res.status(200).json({ status: "success", data: newParking });
