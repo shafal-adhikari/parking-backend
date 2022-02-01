@@ -16,7 +16,7 @@ router
 router
   .route("/")
   .get(parkingController.getParkings)
-  .post(upload.single("image"), parkingController.addParking);
+  .post(parkingController.addParking);
 
 router
   .route("/:id")
