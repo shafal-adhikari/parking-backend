@@ -88,16 +88,15 @@ exports.getAllNearbyParking = catchAsync(async (req, res) => {
   const parkings = await parkingModel
     .find({
       geometry: {
-        $nearSphere: {
-          $geometry: {
-            type: "Point",
-            coordinates: [req.params.longitude, req.params.latitude],
-          },
-          $maxDistance: 0.5 * METERS_PER_MILE,
+        $geoWithin: {
+          $centerSphere: [
+            [req.params.longitude, req.params.latitude],
+            2 / 3963.2,
+          ],
         },
       },
     })
-    .select("name description");
+    .select("name description location");
   res.status(200).json({
     status: "success",
     results: parkings.length,
