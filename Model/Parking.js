@@ -13,10 +13,10 @@ const parkingSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    // image: {
-    //   data: Buffer,
-    //   contentType: String,
-    // },
+    image: {
+      data: Buffer,
+      contentType: String,
+    },
     ratingQuantity: {
       type: Number,
       default: 4.5,
@@ -56,13 +56,13 @@ const parkingSchema = new mongoose.Schema(
   }
 );
 
-// parkingSchema.index({ geometry: "2dsphere" });
+parkingSchema.index({ geometry: "2dsphere" });
 
-// parkingSchema.virtual("floors", {
-//   ref: "floor",
-//   foreignField: "parking",
-//   localField: "_id",
-// });
+parkingSchema.virtual("floors", {
+  ref: "floor",
+  foreignField: "parking",
+  localField: "_id",
+});
 parkingSchema.pre("save", function () {
   this.slug = slugify(this.name, { lower: true });
 });
