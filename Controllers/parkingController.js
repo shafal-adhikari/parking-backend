@@ -85,18 +85,16 @@ exports.getParkingWithinDistance = catchAsync(async (req, res) => {
 exports.getAllNearbyParking = catchAsync(async (req, res) => {
   var METERS_PER_MILE = 1609.34;
 
-  const parkings = await parkingModel
-    .find({
-      geometry: {
-        $geoWithin: {
-          $centerSphere: [
-            [req.params.longitude, req.params.latitude],
-            2 / 3963.2,
-          ],
-        },
+  const parkings = await parkingModel.find({
+    geometry: {
+      $geoWithin: {
+        $centerSphere: [
+          [req.params.longitude, req.params.latitude],
+          2 / 3963.2,
+        ],
       },
-    })
-    .select("name description location");
+    },
+  });
   res.status(200).json({
     status: "success",
     results: parkings.length,
