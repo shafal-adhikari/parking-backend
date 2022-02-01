@@ -22,7 +22,7 @@ const sendErrorProd = (err, res) => {
     //send some generic message to the user.
     res.status(500).json({
       status: "error",
-      message: err,
+      message: err.message,
     });
   }
 };

@@ -17,7 +17,7 @@ exports.addParking = catchAsync(async (req, res) => {
     location,
     description,
     geometry: {
-      type: "point",
+      type: "Point",
       coordinates,
     },
   });

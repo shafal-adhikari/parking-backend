@@ -13,11 +13,9 @@ router
 router
   .route("/getParkingWithinDistance")
   .get(parkingController.getParkingWithinDistance);
-router
-  .route("/")
-  .get(parkingController.getParkings)
-  .post(parkingController.addParking);
+router.route("/").get(parkingController.getParkings);
 
+router.route("/").post(parkingController.addParking);
 router
   .route("/:id")
   .get(parkingController.getParking)
