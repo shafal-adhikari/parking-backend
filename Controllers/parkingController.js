@@ -17,10 +17,6 @@ exports.addParking = catchAsync(async (req, res) => {
     location,
     description,
     coordinates,
-    image: {
-      data: req.file.buffer,
-      contentType: "image/jpg",
-    },
   });
   await newParking.save();
   await res.status(200).json({ status: "success", data: newParking });
