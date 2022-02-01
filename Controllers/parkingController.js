@@ -62,7 +62,9 @@ exports.getParkingWithinDistance = catchAsync(async (req, res) => {
   const parkings = await parkingModel
     .find({
       geometry: {
-        $geoWithin: { $centerSphere: [[85.330131, 27.706267], 2 / 3963.2] },
+        $geoWithin: {
+          $centerSphere: [[req.longitude, req.latitude], 2 / 3963.2],
+        },
       },
     })
     .select("name description location");
