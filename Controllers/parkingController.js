@@ -92,7 +92,7 @@ exports.getAllNearbyParking = catchAsync(async (req, res) => {
         $nearSphere: {
           $geometry: {
             type: "Point",
-            coordinates: [85.330131, 27.706267],
+            coordinates: [req.params.longitude, req.params.latitude],
           },
           $maxDistance: 0.5 * METERS_PER_MILE,
         },
