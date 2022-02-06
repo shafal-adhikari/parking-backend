@@ -11,7 +11,7 @@ exports.getParkings = catchAsync(async (req, res) => {
 });
 
 exports.addParking = catchAsync(async (req, res) => {
-  const { name, location, description, coordinates } = req.body;
+  const { name, location, description, coordinates, floors, slots } = req.body;
   const newParking = new parkingModel({
     name,
     location,
@@ -20,6 +20,8 @@ exports.addParking = catchAsync(async (req, res) => {
       type: "Point",
       coordinates,
     },
+    floors,
+    slots,
   });
   await newParking.save();
   await res.status(200).json({ status: "success", data: newParking });

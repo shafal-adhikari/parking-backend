@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const slotSchema = require("./Slot");
 const floorSchema = new mongoose.Schema(
   {
     floor: {
@@ -27,16 +27,10 @@ const floorSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    slots: [slotSchema],
   },
   {
     toJSON: { virtuals: true },
   }
 );
-
-floorSchema.virtual("slots", {
-  ref: "slot",
-  foreignField: "floor",
-  localField: "_id",
-});
-const Floor = mongoose.model("floor", floorSchema);
-module.exports = Floor;
+module.exports = floorSchema;

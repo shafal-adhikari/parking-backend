@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
 
+const floorSchema = require("./Floor");
+
 const parkingSchema = new mongoose.Schema(
   {
     name: {
@@ -48,6 +50,7 @@ const parkingSchema = new mongoose.Schema(
         ref: "user",
       },
     ],
+    floors: [floorSchema],
     slug: String,
   },
   {
@@ -58,11 +61,6 @@ const parkingSchema = new mongoose.Schema(
 
 parkingSchema.index({ geometry: "2dsphere" });
 
-parkingSchema.virtual("floors", {
-  ref: "floor",
-  foreignField: "parking",
-  localField: "_id",
-});
 parkingSchema.pre("save", function () {
   this.slug = slugify(this.name, { lower: true });
 });
