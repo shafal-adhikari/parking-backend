@@ -2,8 +2,10 @@ const AppError = require("../utils/appError");
 const jwt = require("jsonwebtoken");
 const userModel = require("../Model/User");
 const { catchAsync } = require("../utils/catchAsync");
+const { permittedCrossDomainPolicies } = require("helmet");
 module.exports = catchAsync(async (req, res, next) => {
-  const token = req.header("x-auth-token");
+  const token = req.header("Authorization").replace("Bearer ", "");
+  console.log(token);
   if (!token) {
     return next(new AppError("No token found! Authorization denied", 400));
   }

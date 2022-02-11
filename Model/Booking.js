@@ -6,18 +6,20 @@ const bookingSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: "user",
     },
+    contact: {
+      type: String,
+    },
     parking: {
-      parking: {
-        type: mongoose.Schema.ObjectId,
-        ref: "parking",
-      },
+      name: String,
+      location: String,
+      id: String,
       floor: {
-        type: mongoose.Schema.ObjectId,
-        ref: "floor",
+        id: String,
+        name: String,
       },
       slot: {
-        type: mongoose.Schema.ObjectId,
-        ref: "slot",
+        id: String,
+        name: String,
       },
     },
     vehicleType: {
