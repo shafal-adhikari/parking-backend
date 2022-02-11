@@ -1,6 +1,7 @@
 const bookingModel = require("../Model/Booking");
 const floorModel = require("../Model/Floor");
 const slotModel = require("../Model/Slot");
+const parkingModel = require("../Model/Parking");
 const { catchAsync } = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 
@@ -8,31 +9,32 @@ exports.addBooking = catchAsync(async (req, res, next) => {
   const {
     parking: { slot, floor },
   } = req.body;
-  const Slot = await slotModel.findOne({ _id: slot });
+  const Slot = parkingModel.findOne({ floors.slots._id: slot });
+
   let booking;
-  if (Slot.isAvailable) {
-    booking = await bookingModel.create({
-      ...req.body,
-      user: req.user.id,
-    });
-    Slot.isAvailable = false;
-    await Slot.save({ validateBeforeSave: false });
-    const bookedFloor = await floorModel.findOne({ _id: floor });
-    if (req.body.vehicleType == "car") {
-      bookedFloor.carSlot -= 1;
-    } else if (req.body.vehicleType == "bike") {
-      bookedFloor.bikeSlot -= 1;
-    }
-    await bookedFloor.save({ validateBeforeSave: false });
-  } else {
-    return next(
-      new AppError("slot is already booked! Please try another slot", 400)
-    );
-  }
+  // if (Slot.isAvailable) {
+  //   booking = await bookingModel.create({
+  //     ...req.body,
+  //     user: req.user.id,
+  //   });
+  //   Slot.isAvailable = false;
+  //   await Slot.save({ validateBeforeSave: false });
+  //   const bookedFloor = await floorModel.findOne({ _id: floor });
+  //   if (req.body.vehicleType == "car") {
+  //     bookedFloor.carSlot -= 1;
+  //   } else if (req.body.vehicleType == "bike") {
+  //     bookedFloor.bikeSlot -= 1;
+  //   }
+  //   await bookedFloor.save({ validateBeforeSave: false });
+  // } else {
+  //   return next(
+  //     new AppError("slot is already booked! Please try another slot", 400)
+  //   );
+  // }
 
   res.status(200).json({
     status: "success",
-    booking,
+    Slot,
   });
 });
 
