@@ -45,56 +45,17 @@ exports.addBooking = catchAsync(async (req, res, next) => {
       message: "not found",
     });
   }
-
-  // if (Slot.isAvailable) {
-  //   booking = await bookingModel.create({
-  //     ...req.body,
-  //     user: req.user.id,
-  //   });
-  //   Slot.isAvailable = false;
-  //   await Slot.save({ validateBeforeSave: false });
-  //   const bookedFloor = await floorModel.findOne({ _id: floor });
-  //   if (req.body.vehicleType == "car") {
-  //     bookedFloor.carSlot -= 1;
-  //   } else if (req.body.vehicleType == "bike") {
-  //     bookedFloor.bikeSlot -= 1;
-  //   }
-  //   await bookedFloor.save({ validateBeforeSave: false });
-  // } else {
-  //   return next(
-  //     new AppError("slot is already booked! Please try another slot", 400)
-  //   );
-  // }
 });
 
 exports.getBookings = catchAsync(async (req, res) => {
-  let bookings = await bookingModel
-    .find({ user: req.user.id })
-    .select("-user")
-    .populate({
-      path: "parking",
-      populate: {
-        path: "slot floor parking",
-      },
-    });
-  bookings = bookings.map((el, index) => {
-    return {
-      parking: bookings[index].parking.parking.name,
-      location: bookings[index].parking.parking.location,
-      floor: bookings[index].parking.floor.floor,
-      slot: bookings[index].parking.slot.slot,
-      vehicleType: bookings[index].vehicleType,
-      startTime: bookings[index].startTime,
-      endTime: bookings[index].endTime,
-      date: bookings[index].date,
-    };
-  });
+  let bookings = await bookingModel.find({ user: req.user.id }).select("-user");
   res.status(200).json({
     status: "success",
     results: bookings.length,
     bookings,
   });
 });
+
 exports.editMyBooking = catchAsync(async (req, res) => {
   /*  const editedData = {
     vehicleType: req.body.vehicleType && req.body.vehicleType,
